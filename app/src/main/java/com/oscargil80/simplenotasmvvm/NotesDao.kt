@@ -19,5 +19,5 @@ interface NotesDao {
     fun getAllNotes(): LiveData<List<Note>>
 
     @Query("select * from  notesTable where id = :id ")
-    suspend fun getById(id:Int): Note
+    fun getById(id:Int): LiveData<Note>
 }

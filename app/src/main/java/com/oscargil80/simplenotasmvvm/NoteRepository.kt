@@ -1,6 +1,7 @@
 package com.oscargil80.simplenotasmvvm
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 class NoteRepository(private val notesDao: NotesDao) {
 
@@ -19,7 +20,7 @@ class NoteRepository(private val notesDao: NotesDao) {
         notesDao.update(note)
     }
 
-    suspend fun noteByID(id:Int):(Note) {
+   fun noteByID(id:Int): LiveData<Note> {
          return notesDao.getById(id)
     }
 

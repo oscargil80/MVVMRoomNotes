@@ -3,8 +3,10 @@ package com.oscargil80.simplenotasmvvm
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.oscargil80.simplenotasmvvm.databinding.ActivityAddEditNoteBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,17 +27,13 @@ class AddEditNoteActivity : AppCompatActivity() {
 
         val noteType = intent.getStringExtra("noteType")
         if (noteType.equals("Edit")) {
-            val noteId = intent.getIntExtra("noteID", 1)
-            Toast.makeText(this, "Delete  $noteId", Toast.LENGTH_SHORT).show();
-            viewModel.noteByID(noteId)
 
-            //Toast.makeText(this, "Delete ${viewModel.titulo.value}", Toast.LENGTH_SHORT).show();
-           // val noteTitle = intent.getStringExtra("noteTitle")
-            val noteDesc = intent.getStringExtra("noteDescription")
-            //noteID = intent.getIntExtra("noteID", -1)
+            noteID = intent.getIntExtra("noteID", 1)
             binding.btnAddUpdate.setText("Update Note")
-            binding.etNoteTitle.setText(viewModel.titulo.value.toString())
-            binding.etDescripcion.setText(noteDesc)
+            viewModel.noteByID(noteID).observe(this, androidx.lifecycle.Observer {
+                binding.etNoteTitle.setText("${it.noteTitle}")
+                binding.etDescripcion.setText("${it.noteDescription}")
+            })
         } else {
             binding.btnAddUpdate.setText("Save Note")
         }
@@ -51,6 +49,7 @@ class AddEditNoteActivity : AppCompatActivity() {
                     val currentDate: String = sdf.format(Date())
                     val updateNote = Note(noteTitle, noteDescripcion, currentDate)
                     updateNote.id = noteID
+                    Log.e("Datos", updateNote.id.toString())
                     viewModel.updateNote(updateNote)
                     Toast.makeText(this, "Note Update....", Toast.LENGTH_SHORT).show();
                 }

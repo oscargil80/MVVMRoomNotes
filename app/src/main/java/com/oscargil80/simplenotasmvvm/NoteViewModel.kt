@@ -28,13 +28,8 @@ class NoteViewModel(application: Application): AndroidViewModel(application) {
         repository.delete(note)
     }
 
-    fun  noteByID(id: Int) {
-        viewModelScope.launch {
-               var notas =  withContext(Dispatchers.IO){
-                 repository.noteByID(id)
-            }
-            titulo.value = notas.noteTitle
-        }
+    fun  noteByID(id: Int):LiveData<Note> {
+     return repository.noteByID(id)
     }
 
 

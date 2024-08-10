@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.oscargil80.simplenotasmvvm.databinding.ActivityMainBinding
@@ -14,15 +15,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var viewModel: NoteViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-
-
         setContentView(binding.root)
-
         binding.RVNotes.layoutManager = LinearLayoutManager(this)
 
         val noteRVAdapter = NoteAdapter(
@@ -51,6 +48,11 @@ class MainActivity : AppCompatActivity() {
         //viewModel.deleteNote(note)
         var n = note.id
         viewModel.noteByID(n)
+        viewModel.noteByID(n).observe(this, Observer {
+            Toast.makeText(this, "Delete ${it.noteTitle}", Toast.LENGTH_SHORT).show();
+        })
+
+
        //Toast.makeText(this, "${nom.noteTitle} Delete", Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "Delete ${viewModel.titulo.value}", Toast.LENGTH_SHORT).show();
     }
@@ -58,12 +60,8 @@ class MainActivity : AppCompatActivity() {
     private fun onClickListener(note: Note) {
         val intent = Intent(this@MainActivity, AddEditNoteActivity::class.java)
         intent.putExtra("noteType", "Edit")
-        intent.putExtra("noteTitle", note.noteTitle)
-        intent.putExtra("noteDescription", note.noteDescription)
         intent.putExtra("noteID", note.id)
         startActivity(intent)
         this.finish()
-
-
     }
 }

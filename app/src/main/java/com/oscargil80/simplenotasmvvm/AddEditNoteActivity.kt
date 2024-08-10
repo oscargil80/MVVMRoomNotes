@@ -40,6 +40,7 @@ class AddEditNoteActivity : AppCompatActivity() {
             val noteDescripcion = binding.etDescripcion.text.toString()
 
             if (noteType.equals("Edit")) {
+
                 if (noteTitle.isNotEmpty() && noteDescripcion.isNotEmpty()) {
                     val sdf = SimpleDateFormat("dd MMM, yyyy - HH:mm")
                     val currentDate: String = sdf.format(Date())

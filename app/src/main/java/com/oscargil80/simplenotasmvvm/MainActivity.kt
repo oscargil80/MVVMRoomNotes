@@ -3,10 +3,12 @@ package com.oscargil80.simplenotasmvvm
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.oscargil80.simplenotasmvvm.databinding.ActivityMainBinding
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -16,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+
 
         setContentView(binding.root)
 
@@ -41,11 +45,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             this.finish()
         }
-    }
+      }
 
     private fun onClickDelete(note: Note) {
-        viewModel.deleteNote(note)
-        Toast.makeText(this, "${note.noteTitle} Delete", Toast.LENGTH_SHORT).show();
+        //viewModel.deleteNote(note)
+        var n = note.id
+        viewModel.noteByID(n)
+       //Toast.makeText(this, "${nom.noteTitle} Delete", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Delete ${viewModel.titulo.value}", Toast.LENGTH_SHORT).show();
     }
 
     private fun onClickListener(note: Note) {

@@ -18,6 +18,6 @@ interface NotesDao {
     @Query("select * from  notesTable order by  id ASC")
     fun getAllNotes(): LiveData<List<Note>>
 
-
-
+    @Query("select * from  notesTable where id = :id ")
+    suspend fun getById(id:Int): Note
 }

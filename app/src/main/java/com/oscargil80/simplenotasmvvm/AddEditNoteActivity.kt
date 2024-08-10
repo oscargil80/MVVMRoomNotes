@@ -25,11 +25,16 @@ class AddEditNoteActivity : AppCompatActivity() {
 
         val noteType = intent.getStringExtra("noteType")
         if (noteType.equals("Edit")) {
-            val noteTitle = intent.getStringExtra("noteTitle")
+            val noteId = intent.getIntExtra("noteID", 1)
+            Toast.makeText(this, "Delete  $noteId", Toast.LENGTH_SHORT).show();
+            viewModel.noteByID(noteId)
+
+            //Toast.makeText(this, "Delete ${viewModel.titulo.value}", Toast.LENGTH_SHORT).show();
+           // val noteTitle = intent.getStringExtra("noteTitle")
             val noteDesc = intent.getStringExtra("noteDescription")
-            noteID = intent.getIntExtra("noteID", -1)
+            //noteID = intent.getIntExtra("noteID", -1)
             binding.btnAddUpdate.setText("Update Note")
-            binding.etNoteTitle.setText(noteTitle)
+            binding.etNoteTitle.setText(viewModel.titulo.value.toString())
             binding.etDescripcion.setText(noteDesc)
         } else {
             binding.btnAddUpdate.setText("Save Note")

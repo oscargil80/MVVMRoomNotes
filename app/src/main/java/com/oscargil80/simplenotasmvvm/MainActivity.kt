@@ -20,17 +20,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.RVNotes.layoutManager = LinearLayoutManager(this)
+
         val noteRVAdapter = NoteAdapter(
             OnClickListener = { note -> onClickListener(note) },
             OnClickDelete = { note -> onClickDelete(note) })
+
         binding.RVNotes.adapter = noteRVAdapter
+
         viewModel = ViewModelProvider(this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(NoteViewModel::class.java)
-        viewModel.allNotes.observe(this, {list ->
-            list?.let{
+
+        viewModel.allNotes.observe(this) { list ->
+            list?.let {
                 noteRVAdapter.updateList(it)
+            }
         }
-        })
+
         binding.fbAddNote.setOnClickListener {
             val intent = Intent(this@MainActivity, AddEditNoteActivity::class.java)
             startActivity(intent)
@@ -39,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onClickDelete(note: Note) {
-         viewModel.deleteNote(note)
+        viewModel.deleteNote(note)
         Toast.makeText(this, "${note.noteTitle} Delete", Toast.LENGTH_SHORT).show();
     }
 
@@ -51,8 +56,6 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("noteID", note.id)
         startActivity(intent)
         this.finish()
-
-
 
 
     }

@@ -17,6 +17,8 @@ class AddEditNoteActivity : AppCompatActivity() {
     lateinit var viewModel: NoteViewModel
     var noteID = -1
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddEditNoteBinding.inflate(layoutInflater)

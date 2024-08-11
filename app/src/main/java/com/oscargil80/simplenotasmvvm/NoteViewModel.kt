@@ -13,10 +13,8 @@ import kotlinx.coroutines.withContext
 class NoteViewModel(application: Application): AndroidViewModel(application) {
 
     val allNotes:LiveData<List<Note>>
-   // var id = MutableLiveData<Long>()
-    var titulo = MutableLiveData<String>()
-    var descripcion = MutableLiveData<String>()
     val repository:NoteRepository
+
 
     init {
         val dao = NoteDatabase.getDatabase(application).getNotesDao()
@@ -41,9 +39,6 @@ class NoteViewModel(application: Application): AndroidViewModel(application) {
         repository.insert(note)
     }
 
-   /* fun noteByID(id:Int): Note {
-        return repository.noteByID(id)
-    }*/
 
 
 

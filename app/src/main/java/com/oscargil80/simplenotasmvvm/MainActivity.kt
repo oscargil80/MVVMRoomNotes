@@ -18,24 +18,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
-        binding.RVNotes.layoutManager = LinearLayoutManager(this)
-
-        val noteRVAdapter = NoteAdapter(
-            OnClickListener = { note -> onClickListener(note) },
-            OnClickDelete = { note -> onClickDelete(note) })
-
-        binding.RVNotes.adapter = noteRVAdapter
+        cargarRV() // Cargar el RecyclerView
 
         viewModel = ViewModelProvider(this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(NoteViewModel::class.java)
-
-        viewModel.allNotes.observe(this) { list ->
-            list?.let {
-                noteRVAdapter.updateList(it)
-            }
-        }
 
         binding.fbAddNote.setOnClickListener {
             val intent = Intent(this@MainActivity, AddEditNoteActivity::class.java)
@@ -45,16 +32,8 @@ class MainActivity : AppCompatActivity() {
       }
 
     private fun onClickDelete(note: Note) {
-        //viewModel.deleteNote(note)
-        var n = note.id
-        viewModel.noteByID(n)
-        viewModel.noteByID(n).observe(this, Observer {
-            Toast.makeText(this, "Delete ${it.noteTitle}", Toast.LENGTH_SHORT).show();
-        })
-
-
-       //Toast.makeText(this, "${nom.noteTitle} Delete", Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "Delete ${viewModel.titulo.value}", Toast.LENGTH_SHORT).show();
+        viewModel.deleteNote(note)
+       Toast.makeText(this, "${note.noteTitle} Delete", Toast.LENGTH_SHORT).show();
     }
 
     private fun onClickListener(note: Note) {
@@ -64,4 +43,25 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         this.finish()
     }
+
+    private fun cargarRV() {
+        binding.RVNotes.layoutManager = LinearLayoutManager(this)
+
+        val noteRVAdapter = NoteAdapter(
+            OnClickListener = { note -> onClickListener(note) },
+            OnClickDelete = { note -> onClickDelete(note) })
+
+        binding.RVNotes.adapter = noteRVAdapter
+
+        viewModel.allNotes.observe(this) { list ->
+            list?.let {
+                noteRVAdapter.updateList(it)
+            }
+        }
+    }
 }
+/*        var n = note.id
+        viewModel.noteByID(n)
+        viewModel.noteByID(n).observe(this, Observer {
+            Toast.makeText(this, "Delete ${it.noteTitle}", Toast.LENGTH_SHORT).show();
+        })*/

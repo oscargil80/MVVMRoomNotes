@@ -1,6 +1,7 @@
 package com.oscargil80.simplenotasmvvm
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 
 @Dao
